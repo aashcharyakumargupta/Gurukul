@@ -32,8 +32,7 @@ const teacherLogIn = async (req, res) => {
         if (teacher) {
             const validated = await bcrypt.compare(req.body.password, teacher.password);
             if (validated) {
-                teacher = await teacher.populate("teachSubject", "subName sessions")
-                teacher = await teacher.populate("college", "collegeName")
+                teacher = await teacher.populate("teachSubject", "subName")
                 teacher = await teacher.populate("teachSclass", "sclassName")
                 teacher.password = undefined;
                 res.send(teacher);
@@ -50,7 +49,7 @@ const teacherLogIn = async (req, res) => {
 
 const getTeachers = async (req, res) => {
     try {
-        let teachers = await Teacher.find({ college: req.params.id })
+        let teachers = await Teacher.find({})
             .populate("teachSubject", "subName")
             .populate("teachSclass", "sclassName");
         if (teachers.length > 0) {
@@ -69,8 +68,7 @@ const getTeachers = async (req, res) => {
 const getTeacherDetail = async (req, res) => {
     try {
         let teacher = await Teacher.findById(req.params.id)
-            .populate("teachSubject", "subName sessions")
-            .populate("college", "collegeName")
+            .populate("teachSubject", "subName ")
             .populate("teachSclass", "sclassName")
         if (teacher) {
             teacher.password = undefined;
@@ -118,7 +116,7 @@ const deleteTeacher = async (req, res) => {
 
 const deleteTeachers = async (req, res) => {
     try {
-        const deletionResult = await Teacher.deleteMany({ college: req.params.id });
+        const deletionResult = await Teacher.deleteMany({});
 
         const deletedCount = deletionResult.deletedCount || 0;
 
@@ -142,7 +140,7 @@ const deleteTeachers = async (req, res) => {
 
 const deleteTeachersByClass = async (req, res) => {
     try {
-        const deletionResult = await Teacher.deleteMany({ sclassName: req.params.id });
+        const deletionResult = await Teacher.deleteMany({ teachSclass: req.params.id });
 
         const deletedCount = deletionResult.deletedCount || 0;
 
@@ -151,7 +149,7 @@ const deleteTeachersByClass = async (req, res) => {
             return;
         }
 
-        const deletedTeachers = await Teacher.find({ sclassName: req.params.id });
+        const deletedTeachers = await Teacher.find({ teachSclass: req.params.id });
 
         await Subject.updateMany(
             { teacher: { $in: deletedTeachers.map(teacher => teacher._id) }, teacher: { $exists: true } },

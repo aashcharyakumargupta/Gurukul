@@ -32,12 +32,10 @@ const teacherSchema = new mongoose.Schema({
             type: Date,
             required: true
         },
-        presentCount: {
-            type: String,
-        },
-        absentCount: {
-            type: String,
-        }
+       status:{
+        type:Boolean,
+        required:true
+       }
     }]
 }, { timestamps: true });
 

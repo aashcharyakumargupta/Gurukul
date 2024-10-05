@@ -4,9 +4,9 @@ const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeac
 
 router.post('/TeacherReg', teacherRegister);
 router.post('/TeacherLogin', teacherLogIn);
-router.get("/Teachers/:id", getTeachers);
+router.get("/Teachers/", getTeachers);
 router.get("/Teacher/:id", getTeacherDetail);
-router.delete("/Teachers/:id", deleteTeachers);
+router.delete("/Teachers/", deleteTeachers);
 router.delete("/TeachersClass/:id", deleteTeachersByClass);
 router.delete("/Teacher/:id", deleteTeacher);
 router.put("/TeacherSubject", updateTeacherSubject);

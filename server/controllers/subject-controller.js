@@ -31,8 +31,7 @@ const subjectCreate = async (req, res) => {
 
 const allSubjects = async (req, res) => {
     try {
-        let subjects = await Subject.find({ college: req.params.id })
-            .populate("sclassName", "sclassName")
+        let subjects = await Subject.find({})
         if (subjects.length > 0) {
             res.send(subjects)
         } else {
@@ -95,7 +94,7 @@ const deleteSubject = async (req, res) => {
             { $unset: { teachSubject: "" }, $unset: { teachSubject: null } }
         );
 
-        // Remove the objects containing the deleted subject from students' examResult array
+        // Remove the objects containing the deleted subject from student's examResult array
         await Student.updateMany(
             {},
             { $pull: { examResult: { subName: deletedSubject._id } } }
@@ -113,32 +112,11 @@ const deleteSubject = async (req, res) => {
     }
 };
 
-const deleteSubjects = async (req, res) => {
-    try {
-        const deletedSubjects = await Subject.deleteMany({ college: req.params.id });
-
-        // Set the teachSubject field to null in teachers
-        await Teacher.updateMany(
-            { teachSubject: { $in: deletedSubjects.map(subject => subject._id) } },
-            { $unset: { teachSubject: "" }, $unset: { teachSubject: null } }
-        );
-
-        // Set examResult and attendance to null in all students
-        await Student.updateMany(
-            {},
-            { $set: { examResult: null, attendance: null } }
-        );
-
-        res.send(deletedSubjects);
-    } catch (error) {
-        res.status(500).json(error);
-    }
-};
 
 const deleteSubjectsByClass = async (req, res) => {
     try {
-        const deletedSubjects = await Subject.deleteMany({ sclassName: req.params.id });
-
+        const deletionResult = await Subject.deleteMany({ sclassName: req.params.id });
+        const deletedSubjects = await Teacher.find({ teachSclass: req.params.id });
         // Set the teachSubject field to null in teachers
         await Teacher.updateMany(
             { teachSubject: { $in: deletedSubjects.map(subject => subject._id) } },
@@ -151,11 +129,11 @@ const deleteSubjectsByClass = async (req, res) => {
             { $set: { examResult: null, attendance: null } }
         );
 
-        res.send(deletedSubjects);
+        res.send(deletionResult);
     } catch (error) {
         res.status(500).json(error);
     }
 };
 
 
-module.exports = { subjectCreate, freeSubjectList, classSubjects, getSubjectDetail, deleteSubjectsByClass, deleteSubjects, deleteSubject, allSubjects };
+module.exports = { subjectCreate, freeSubjectList, classSubjects, getSubjectDetail, deleteSubjectsByClass, deleteSubject, allSubjects };
