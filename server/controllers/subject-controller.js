@@ -8,11 +8,9 @@ const subjectCreate = async (req, res) => {
             subName: subject.subName,
             subCode: subject.subCode
         }));
-
         const existingSubjectBySubCode = await Subject.findOne({
             subCode: subjects[0].subCode
         });
-
         if (existingSubjectBySubCode) {
             res.send({ message: 'Sorry this subcode must be unique as it already exists' });
         } else {
@@ -20,7 +18,6 @@ const subjectCreate = async (req, res) => {
                 ...subject,
                 sclassName: req.body.sclassName
             }));
-
             const result = await Subject.insertMany(newSubjects);
             res.send(result);
         }
@@ -82,58 +79,45 @@ const getSubjectDetail = async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-}
+};
 
 const deleteSubject = async (req, res) => {
     try {
         const deletedSubject = await Subject.findByIdAndDelete(req.params.id);
-
-        // Set the teachSubject field to null in teachers
         await Teacher.updateOne(
             { teachSubject: deletedSubject._id },
             { $unset: { teachSubject: "" }, $unset: { teachSubject: null } }
         );
-
-        // Remove the objects containing the deleted subject from student's examResult array
         await Student.updateMany(
             {},
             { $pull: { examResult: { subName: deletedSubject._id } } }
         );
-
-        // Remove the objects containing the deleted subject from students' attendance array
         await Student.updateMany(
             {},
             { $pull: { attendance: { subName: deletedSubject._id } } }
         );
-
         res.send(deletedSubject);
     } catch (error) {
         res.status(500).json(error);
     }
 };
 
-
 const deleteSubjectsByClass = async (req, res) => {
     try {
         const deletionResult = await Subject.deleteMany({ sclassName: req.params.id });
         const deletedSubjects = await Teacher.find({ teachSclass: req.params.id });
-        // Set the teachSubject field to null in teachers
         await Teacher.updateMany(
             { teachSubject: { $in: deletedSubjects.map(subject => subject._id) } },
             { $unset: { teachSubject: "" }, $unset: { teachSubject: null } }
         );
-
-        // Set examResult and attendance to null in all students
         await Student.updateMany(
             {},
             { $set: { examResult: null, attendance: null } }
         );
-
         res.send(deletionResult);
     } catch (error) {
         res.status(500).json(error);
     }
 };
-
 
 module.exports = { subjectCreate, freeSubjectList, classSubjects, getSubjectDetail, deleteSubjectsByClass, deleteSubject, allSubjects };

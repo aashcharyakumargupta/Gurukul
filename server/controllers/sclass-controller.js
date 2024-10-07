@@ -50,7 +50,7 @@ const getSclassDetail = async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-}
+};
 
 const getSclassStudents = async (req, res) => {
     try {
@@ -66,7 +66,7 @@ const getSclassStudents = async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-}
+};
 
 const deleteSclass = async (req, res) => {
     try {
@@ -81,7 +81,7 @@ const deleteSclass = async (req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
-}
+};
 
 const deleteSclasses = async (req, res) => {
     try {
@@ -96,7 +96,6 @@ const deleteSclasses = async (req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
-}
-
+};
 
 module.exports = { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents };

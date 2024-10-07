@@ -7,7 +7,6 @@ const Subject = require('../models/subjectSchema.js');
 const Notice = require('../models/noticeSchema.js');
 const Complain = require('../models/complainSchema.js');
 
-
 const adminLogIn = async (req, res) => {
     if (req.body.email && req.body.password) {
         let admin = await Admin.findOne({ email: req.body.email });
@@ -39,7 +38,7 @@ const getAdminDetail = async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-}
+};
 
 const deleteAdmin = async (req, res) => {
     try {
@@ -54,7 +53,7 @@ const deleteAdmin = async (req, res) => {
     } catch (error) {
         res.status(500).json(err);
     }
-}
+};
 
 const updateAdmin = async (req, res) => {
     try {
@@ -67,6 +66,6 @@ const updateAdmin = async (req, res) => {
     } catch (error) {
         res.status(500).json(err);
     }
-}
+};
 
 module.exports = { adminLogIn, getAdminDetail, deleteAdmin, updateAdmin };

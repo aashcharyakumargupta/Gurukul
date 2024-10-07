@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
 
-
 router.post('/TeacherReg', teacherRegister);
 router.post('/TeacherLogin', teacherLogIn);
 router.get("/Teachers/", getTeachers);

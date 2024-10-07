@@ -34,7 +34,7 @@ const updateNotice = async (req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
-}
+};
 
 const deleteNotice = async (req, res) => {
     try {
@@ -43,7 +43,7 @@ const deleteNotice = async (req, res) => {
     } catch (error) {
         res.status(500).json(err);
     }
-}
+};
 
 const deleteNotices = async (req, res) => {
     try {
@@ -56,6 +56,6 @@ const deleteNotices = async (req, res) => {
     } catch (error) {
         res.status(500).json(err);
     }
-}
+};
 
 module.exports = { noticeCreate, noticeList, updateNotice, deleteNotice, deleteNotices };
