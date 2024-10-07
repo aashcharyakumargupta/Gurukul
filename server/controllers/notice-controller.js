@@ -14,7 +14,7 @@ const noticeCreate = async (req, res) => {
 
 const noticeList = async (req, res) => {
     try {
-        let notices = await Notice.find({ college: req.params.id })
+        let notices = await Notice.find({})
         if (notices.length > 0) {
             res.send(notices)
         } else {
@@ -47,7 +47,7 @@ const deleteNotice = async (req, res) => {
 
 const deleteNotices = async (req, res) => {
     try {
-        const result = await Notice.deleteMany({ college: req.params.id })
+        const result = await Notice.deleteMany({})
         if (result.deletedCount === 0) {
             res.send({ message: "No notices found to delete" })
         } else {

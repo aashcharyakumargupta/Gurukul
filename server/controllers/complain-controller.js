@@ -12,7 +12,7 @@ const complainCreate = async (req, res) => {
 
 const complainList = async (req, res) => {
     try {
-        let complains = await Complain.find({ college: req.params.id }).populate("user", "name");
+        let complains = await Complain.find({}).populate("user", "name");
         if (complains.length > 0) {
             res.send(complains)
         } else {
