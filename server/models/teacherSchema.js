@@ -32,10 +32,11 @@ const teacherSchema = new mongoose.Schema({
             type: Date,
             required: true
         },
-       status:{
-        type:Boolean,
-        required:true
-       }
+        status: {
+            type: String,
+            enum: ['Present', 'Absent'],
+            required: true
+        }
     }]
 }, { timestamps: true });
 
