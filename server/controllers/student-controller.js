@@ -70,7 +70,7 @@ const getStudentDetail = async (req, res) => {
         let student = await Student.findById(req.params.id)
             .populate("sclassName", "sclassName")
             .populate("examResult.subName", "subName")
-            .populate("attendance.subName", "subName");
+            .populate("attendance.subName", "subName sessions");
         if (student) {
             student.password = undefined;
             res.send(student);
@@ -163,6 +163,7 @@ const studentAttendance = async (req, res) => {
         if (!student) {
             return res.send({ message: 'Student not found' });
         }
+        const subject = await Subject.findById(subName);
         const existingAttendance = student.attendance.find(
             (a) =>
                 a.date.toDateString() === new Date(date).toDateString() &&
@@ -171,6 +172,12 @@ const studentAttendance = async (req, res) => {
         if (existingAttendance) {
             existingAttendance.status = status;
         } else {
+            const attendedSessions = student.attendance.filter(
+                (a) => a.subName.toString() === subName
+            ).length;
+            if (attendedSessions >= subject.sessions) {
+                return res.send({ message: 'Maximum attendance limit reached' });
+            }
             student.attendance.push({ date, status, subName });
         }
         const result = await student.save();

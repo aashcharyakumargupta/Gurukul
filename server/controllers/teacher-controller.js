@@ -29,7 +29,7 @@ const teacherLogIn = async (req, res) => {
         if (teacher) {
             const validated = await bcrypt.compare(req.body.password, teacher.password);
             if (validated) {
-                teacher = await teacher.populate("teachSubject", "subName")
+                teacher = await teacher.populate("teachSubject", "subName sessions")
                 teacher = await teacher.populate("teachSclass", "sclassName")
                 teacher.password = undefined;
                 res.send(teacher);
@@ -65,7 +65,7 @@ const getTeachers = async (req, res) => {
 const getTeacherDetail = async (req, res) => {
     try {
         let teacher = await Teacher.findById(req.params.id)
-            .populate("teachSubject", "subName ")
+            .populate("teachSubject", "subName sessions")
             .populate("teachSclass", "sclassName")
         if (teacher) {
             teacher.password = undefined;
