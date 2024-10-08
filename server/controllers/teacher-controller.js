@@ -89,8 +89,8 @@ const updateTeacherSubject = async (req, res) => {
         );
         await Subject.findByIdAndUpdate(teachSubject, { teacher: updatedTeacher._id });
         res.send(updatedTeacher);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -102,8 +102,8 @@ const deleteTeacher = async (req, res) => {
             { $unset: { teacher: 1 } }
         );
         res.send(deletedTeacher);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -121,8 +121,8 @@ const deleteTeachers = async (req, res) => {
             { $unset: { teacher: "" }, $unset: { teacher: null } }
         );
         res.send(deletionResult);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -140,8 +140,8 @@ const deleteTeachersByClass = async (req, res) => {
             { $unset: { teacher: "" }, $unset: { teacher: null } }
         );
         res.send(deletionResult);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -163,8 +163,8 @@ const teacherAttendance = async (req, res) => {
         }
         const result = await teacher.save();
         return res.send(result);
-    } catch (error) {
-        res.status(500).json(error)
+    } catch (err) {
+        res.status(500).json(err)
     }
 };
 

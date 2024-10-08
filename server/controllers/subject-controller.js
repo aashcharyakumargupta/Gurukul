@@ -4,22 +4,13 @@ const Student = require('../models/studentSchema.js');
 
 const subjectCreate = async (req, res) => {
     try {
-        const subjects = req.body.subjects.map((subject) => ({
-            subName: subject.subName,
-            subCode: subject.subCode,
-            sessions: subject.sessions
-        }));
-        const existingSubjectBySubCode = await Subject.findOne({
-            subCode: subjects[0].subCode
-        });
+        const {subName,subCode,sessions,sclassName} =req.body;
+        const existingSubjectBySubCode = await Subject.findOne({subCode});
         if (existingSubjectBySubCode) {
             res.send({ message: 'Sorry this subcode must be unique as it already exists' });
         } else {
-            const newSubjects = subjects.map((subject) => ({
-                ...subject,
-                sclassName: req.body.sclassName
-            }));
-            const result = await Subject.insertMany(newSubjects);
+            const newSubject = new Subject({subName,subCode,sessions,sclassName});
+            const result = await newSubject.save();
             res.send(result);
         }
     } catch (err) {
@@ -98,8 +89,8 @@ const deleteSubject = async (req, res) => {
             { $pull: { attendance: { subName: deletedSubject._id } } }
         );
         res.send(deletedSubject);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -116,8 +107,8 @@ const deleteSubjectsByClass = async (req, res) => {
             { $set: { examResult: null, attendance: null } }
         );
         res.send(deletionResult);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 

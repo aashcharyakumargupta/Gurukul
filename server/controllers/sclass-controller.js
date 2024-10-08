@@ -78,8 +78,8 @@ const deleteSclass = async (req, res) => {
         const deletedSubjects = await Subject.deleteMany({ sclassName: req.params.id });
         const deletedTeachers = await Teacher.deleteMany({ teachSclass: req.params.id });
         res.send(deletedClass);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -93,8 +93,8 @@ const deleteSclasses = async (req, res) => {
         const deletedSubjects = await Subject.deleteMany({ college: req.params.id });
         const deletedTeachers = await Teacher.deleteMany({ college: req.params.id });
         res.send(deletedClasses);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 

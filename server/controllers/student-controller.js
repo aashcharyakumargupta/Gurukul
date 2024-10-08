@@ -87,7 +87,7 @@ const deleteStudent = async (req, res) => {
     try {
         const result = await Student.findByIdAndDelete(req.params.id)
         res.send(result)
-    } catch (error) {
+    } catch (err) {
         res.status(500).json(err);
     }
 };
@@ -100,7 +100,7 @@ const deleteStudents = async (req, res) => {
         } else {
             res.send(result)
         }
-    } catch (error) {
+    } catch (err) {
         res.status(500).json(err);
     }
 };
@@ -113,7 +113,7 @@ const deleteStudentsByClass = async (req, res) => {
         } else {
             res.send(result)
         }
-    } catch (error) {
+    } catch (err) {
         res.status(500).json(err);
     }
 };
@@ -129,8 +129,8 @@ const updateStudent = async (req, res) => {
             { new: true })
         result.password = undefined;
         res.send(result)
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -151,8 +151,8 @@ const updateExamResult = async (req, res) => {
         }
         const result = await student.save();
         return res.send(result);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -182,8 +182,8 @@ const studentAttendance = async (req, res) => {
         }
         const result = await student.save();
         return res.send(result);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -195,8 +195,8 @@ const clearAllStudentsAttendanceBySubject = async (req, res) => {
             { $pull: { attendance: { subName } } }
         );
         return res.send(result);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -206,8 +206,8 @@ const clearAllStudentsAttendance = async (req, res) => {
             { $set: { attendance: [] } }
         );
         return res.send(result);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -220,8 +220,8 @@ const removeStudentAttendanceBySubject = async (req, res) => {
             { $pull: { attendance: { subName: subName } } }
         );
         return res.send(result);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -233,8 +233,8 @@ const removeStudentAttendance = async (req, res) => {
             { $set: { attendance: [] } }
         );
         return res.send(result);
-    } catch (error) {
-        res.status(500).json(error);
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 

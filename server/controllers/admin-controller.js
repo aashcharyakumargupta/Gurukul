@@ -50,7 +50,7 @@ const deleteAdmin = async (req, res) => {
         await Notice.deleteMany({ college: req.params.id });
         await Complain.deleteMany({ college: req.params.id });
         res.send(result)
-    } catch (error) {
+    } catch (err) {
         res.status(500).json(err);
     }
 };
@@ -62,7 +62,7 @@ const updateAdmin = async (req, res) => {
             { new: true })
         result.password = undefined;
         res.send(result)
-    } catch (error) {
+    } catch (err) {
         res.status(500).json(err);
     }
 };
