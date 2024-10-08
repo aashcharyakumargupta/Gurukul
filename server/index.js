@@ -29,6 +29,7 @@ mongoose
 app.get('/',(req,res)=>{
     res.send(`API is running...`)
 });
+
 app.use('/Admin', adminRoute);
 app.use('/Complain', complainRoute);
 app.use('/Notice', noticeRoute);

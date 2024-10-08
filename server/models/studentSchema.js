@@ -13,10 +13,6 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    sessions: {
-        type: String,
-        required: true,
-    },
     sclassName: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sclass',
