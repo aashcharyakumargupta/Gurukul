@@ -8,7 +8,6 @@ const studentRegister = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
         const sclassobj = await Sclass.findOne({sclassName: req.body.course});
-        console.log(sclassobj._id);
         const existingStudent = await Student.findOne({
             rollNum: req.body.rollNum,
             sclassName: sclassobj._id,
