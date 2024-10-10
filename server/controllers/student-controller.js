@@ -1,14 +1,17 @@
 const bcrypt = require('bcrypt');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
+const Sclass = require('../models/sclassSchema.js');
 
 const studentRegister = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
+        const sclassobj = await Sclass.findOne({sclassName: req.body.course});
+        console.log(sclassobj._id);
         const existingStudent = await Student.findOne({
             rollNum: req.body.rollNum,
-            sclassName: req.body.sclassName,
+            sclassName: sclassobj._id,
         });
         if (existingStudent) {
             res.send({ message: 'Roll Number already exists' });
@@ -16,7 +19,8 @@ const studentRegister = async (req, res) => {
         else {
             const student = new Student({
                 ...req.body,
-                password: hashedPass
+                password: hashedPass,
+                sclassName: sclassobj._id,
             });
             let result = await student.save();
             result.password = undefined;
