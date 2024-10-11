@@ -5,26 +5,27 @@ const Sclass = require('../models/sclassSchema.js');
 
 const studentRegister = async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPass = await bcrypt.hash(req.body.password, salt);
-        const sclassobj = await Sclass.findOne({sclassName: req.body.course});
+        const sclassobj = await Sclass.findOne({ sclassName: req.body.sclassName });
+        if (!sclassobj) {
+            return res.status(400).json({ message: 'Class not exists' });
+        }
         const existingStudent = await Student.findOne({
             rollNum: req.body.rollNum,
             sclassName: sclassobj._id,
         });
         if (existingStudent) {
-            res.send({ message: 'Roll Number already exists' });
+            return res.status(400).send({ message: 'Roll Number already exists' });
         }
-        else {
-            const student = new Student({
-                ...req.body,
-                password: hashedPass,
-                sclassName: sclassobj._id,
-            });
-            let result = await student.save();
-            result.password = undefined;
-            res.send(result);
-        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPass = await bcrypt.hash(req.body.password, salt);
+        const student = new Student({
+            ...req.body,
+            password: hashedPass,
+            sclassName: sclassobj._id,
+        });
+        let result = await student.save();
+        result.password = undefined;
+        res.send(result);
     } catch (err) {
         res.status(500).json(err);
     }
