@@ -5,7 +5,7 @@ const Sclass = require('../models/sclassSchema.js');
 
 const studentRegister = async (req, res) => {
     try {
-        const sclassobj = await Sclass.findOne({ sclassName: req.body.sclassName });
+        const sclassobj = await Sclass.findOne({ sclassName: req.body.course});
         if (!sclassobj) {
             return res.status(400).json({ message: 'Class not exists' });
         }
@@ -161,23 +161,24 @@ const updateExamResult = async (req, res) => {
 };
 
 const studentAttendance = async (req, res) => {
-    const { subName, status, date } = req.body;
-    try {
+    const {date,status,course} = req.body;
+        try {
         const student = await Student.findById(req.params.id);
         if (!student) {
             return res.send({ message: 'Student not found' });
         }
-        const subject = await Subject.findById(subName);
+        const subName = await Subject.findOne({subName: course});
+        const subject = await Subject.findById(subName._id);
         const existingAttendance = student.attendance.find(
             (a) =>
                 a.date.toDateString() === new Date(date).toDateString() &&
-                a.subName.toString() === subName
+                a.subName.toString() === subName._id
         );
         if (existingAttendance) {
             existingAttendance.status = status;
         } else {
             const attendedSessions = student.attendance.filter(
-                (a) => a.subName.toString() === subName
+                (a) => a.subName.toString() === subName._id
             ).length;
             if (attendedSessions >= subject.sessions) {
                 return res.send({ message: 'Maximum attendance limit reached' });
