@@ -139,14 +139,15 @@ const updateStudent = async (req, res) => {
 };
 
 const updateExamResult = async (req, res) => {
-    const { subName, marksObtained } = req.body;
+    const { course, marksObtained } = req.body;
     try {
         const student = await Student.findById(req.params.id);
         if (!student) {
             return res.send({ message: 'Student not found' });
         }
+        const subName = await Subject.findOne({subName: course});
         const existingResult = student.examResult.find(
-            (result) => result.subName.toString() === subName
+            (result) => result.subName.toString() === subName._id
         );
         if (existingResult) {
             existingResult.marksObtained = marksObtained;
@@ -154,7 +155,7 @@ const updateExamResult = async (req, res) => {
             student.examResult.push({ subName, marksObtained });
         }
         const result = await student.save();
-        return res.send(result);
+        return res.send({ course, marksObtained });
     } catch (err) {
         res.status(500).json(err);
     }
@@ -186,7 +187,7 @@ const studentAttendance = async (req, res) => {
             student.attendance.push({ date, status, subName });
         }
         const result = await student.save();
-        return res.send(result);
+        return res.send({course,date,status});
     } catch (err) {
         res.status(500).json(err);
     }
