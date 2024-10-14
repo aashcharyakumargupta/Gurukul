@@ -24,7 +24,7 @@ const studentSchema = new mongoose.Schema({
     examResult: [
         {
             subName: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: String,
                 ref: 'subject',
             },
             marksObtained: {
@@ -44,7 +44,7 @@ const studentSchema = new mongoose.Schema({
             required: true
         },
         subName: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: 'subject',
             required: true
         }

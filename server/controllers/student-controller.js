@@ -139,15 +139,14 @@ const updateStudent = async (req, res) => {
 };
 
 const updateExamResult = async (req, res) => {
-    const { course, marksObtained } = req.body;
+    const { subName, marksObtained } = req.body;
     try {
         const student = await Student.findById(req.params.id);
         if (!student) {
             return res.send({ message: 'Student not found' });
         }
-        const subName = await Subject.findOne({subName: course});
         const existingResult = student.examResult.find(
-            (result) => result.subName.toString() === subName._id
+            (result) => result.subName.toString() === subName
         );
         if (existingResult) {
             existingResult.marksObtained = marksObtained;
@@ -155,31 +154,28 @@ const updateExamResult = async (req, res) => {
             student.examResult.push({ subName, marksObtained });
         }
         const result = await student.save();
-        return res.send({ course, marksObtained });
-    } catch (err) {
-        res.status(500).json(err);
+        return res.send(result);
+    } catch (error) {
+        res.status(500).json(error);
     }
 };
 
 const studentAttendance = async (req, res) => {
-    const {date,status,course} = req.body;
-        try {
+    const { subName, status, date } = req.body;
+    try {
         const student = await Student.findById(req.params.id);
         if (!student) {
             return res.send({ message: 'Student not found' });
         }
-        const subName = await Subject.findOne({subName: course});
-        const subject = await Subject.findById(subName._id);
+        const subject = await Subject.findOne({subName:subName});
         const existingAttendance = student.attendance.find(
-            (a) =>
-                a.date.toDateString() === new Date(date).toDateString() &&
-                a.subName.toString() === subName._id
+            (a) =>a.date.toDateString() === new Date(date).toDateString() && a.subName.toString() === subName
         );
         if (existingAttendance) {
             existingAttendance.status = status;
         } else {
             const attendedSessions = student.attendance.filter(
-                (a) => a.subName.toString() === subName._id
+                (a) => a.subName.toString() === subName
             ).length;
             if (attendedSessions >= subject.sessions) {
                 return res.send({ message: 'Maximum attendance limit reached' });
@@ -187,15 +183,16 @@ const studentAttendance = async (req, res) => {
             student.attendance.push({ date, status, subName });
         }
         const result = await student.save();
-        return res.send({course,date,status});
-    } catch (err) {
-        res.status(500).json(err);
+        return res.send(result);
+    } catch (error) {
+        res.status(500).json(error);
     }
 };
 
 const clearAllStudentsAttendanceBySubject = async (req, res) => {
-    const subName = req.params.id;
+    const sub = await Subject.findById( req.params.id );
     try {
+        const subName = sub.subName;
         const result = await Student.updateMany(
             { 'attendance.subName': subName },
             { $pull: { attendance: { subName } } }
@@ -219,11 +216,11 @@ const clearAllStudentsAttendance = async (req, res) => {
 
 const removeStudentAttendanceBySubject = async (req, res) => {
     const studentId = req.params.id;
-    const subName = req.body.subId
     try {
+        const subName = req.body.subName;
         const result = await Student.updateOne(
             { _id: studentId },
-            { $pull: { attendance: { subName: subName } } }
+            { $pull: { attendance: { subName : subName } } }
         );
         return res.send(result);
     } catch (err) {
