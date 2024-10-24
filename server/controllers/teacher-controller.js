@@ -1,20 +1,25 @@
 const bcrypt = require('bcrypt');
 const Teacher = require('../models/teacherSchema.js');
 const Subject = require('../models/subjectSchema.js');
+const Sclass = require("../models/sclassSchema.js")
 
 const teacherRegister = async (req, res) => {
-    const { name, email, password, role, teachSubject, teachSclass } = req.body;
+    const { name, email, password, role, teacherSubject, teacherSclass } = req.body;
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(password, salt);
-        const teacher = new Teacher({ name, email, password: hashedPass, role, teachSubject, teachSclass });
+        const subject = await Subject.findOne({subName : teacherSubject});
+        const sclass = await Sclass.findOne({sclassName : teacherSclass});
+        const teachsubject = subject._id;
+        const teachsclass = sclass._id;
+        const teacher = new Teacher({ name, email, password: hashedPass, role, teachSubject : teachsubject, teachSclass : teachsclass });
         const existingTeacherByEmail = await Teacher.findOne({ email });
         if (existingTeacherByEmail) {
             res.send({ message: 'Email already exists' });
         }
         else {
             let result = await teacher.save();
-            await Subject.findByIdAndUpdate(teachSubject, { teacher: teacher._id });
+            await Subject.findByIdAndUpdate(teachsubject, { teacher: teacher._id });
             result.password = undefined;
             res.send(result);
         }

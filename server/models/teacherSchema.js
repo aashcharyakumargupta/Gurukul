@@ -20,12 +20,11 @@ const teacherSchema = new mongoose.Schema({
     },
     teachSubject: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'subject',
+        ref: 'subject'
     },
     teachSclass: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'sclass',
-        required: true,
+        ref: 'sclass'
     },
     attendance: [{
         date: {
