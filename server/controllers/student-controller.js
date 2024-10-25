@@ -159,31 +159,45 @@ const updateExamResult = async (req, res) => {
 };
 
 const studentAttendance = async (req, res) => {
-    const { subName, status, date } = req.body;
     try {
-        const student = await Student.findById(req.params.id);
-        if (!student) {
-            return res.send({ message: 'Student not found' });
+        const subject = await Subject.findById(req.body.subjectId);
+        if (!subject) {
+            return res.send({ message: 'Subject Not Exists' });
         }
-        const subject = await Subject.findOne({subName:subName});
-        const existingAttendance = student.attendance.find(
-            (a) =>a.date.toDateString() === new Date(date).toDateString() && a.subName.toString() === subName
-        );
-        if (existingAttendance) {
-            existingAttendance.status = status;
-        } else {
-            const attendedSessions = student.attendance.filter(
-                (a) => a.subName.toString() === subName
-            ).length;
-            if (attendedSessions >= subject.sessions) {
-                return res.send({ message: 'Maximum attendance limit reached' });
+        const attendances = req.body.attendanceData.map((singledata) => ({
+            subName: subject.subName,
+            status: singledata.status,
+            date: singledata.date,
+            student: singledata.studentId,
+        }));
+        let i = 0;
+        while (attendances[i] !== undefined) {
+            let student = await Student.findById(attendances[i].student);
+            let status = attendances[i].status;
+            let date = attendances[i].date;
+            let subName = attendances[i].subName;
+            const existingAttendance = student.attendance.find(
+                (a) => a.date.toDateString() === new Date(date).toDateString() && a.subName.toString() === subName
+            );
+            if (existingAttendance) {
+                existingAttendance.status = status;
+            } else {
+                const attendedSessions = student.attendance.filter(
+                    (a) => a.subName.toString() === subName
+                ).length;
+                if (attendedSessions >= subject.sessions) {
+                    return res.send({ message: 'Maximum attendance limit reached' });
+                }
+                student.attendance.push({ date, status, subName });
             }
-            student.attendance.push({ date, status, subName });
+            const result = await student.save();
+            i++;
         }
-        const result = await student.save();
-        return res.send(result);
-    } catch (error) {
-        res.status(500).json(error);
+        return res.send("Attendance Marked Successfully!!")
+    }
+    catch (error) {
+        console.error("Error in studentAttendance:", error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
 
