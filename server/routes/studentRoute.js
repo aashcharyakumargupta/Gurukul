@@ -10,7 +10,7 @@ router.delete("/StudentsClass/:id", deleteStudentsByClass);
 router.delete("/Student/:id", deleteStudent);
 router.put("/Student/:id", updateStudent);
 router.put('/UpdateExamResult/:id', updateExamResult);
-router.put('/StudentAttendance/', studentAttendances);
+router.put('/StudentAttendances/', studentAttendances);
 router.put('/StudentAttendance/:id', studentAttendance);
 router.put('/RemoveAllStudentsSubAtten/:id', clearAllStudentsAttendanceBySubject);
 router.put('/RemoveAllStudentsAtten/', clearAllStudentsAttendance);
