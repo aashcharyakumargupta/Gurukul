@@ -159,6 +159,35 @@ const updateExamResult = async (req, res) => {
 };
 
 const studentAttendance = async (req, res) => {
+    const { subName, status, date } = req.body;
+    try {
+        const student = await Student.findById(req.params.id);
+        if (!student) {
+            return res.send({ message: 'Student not found' });
+        }
+        const subject = await Subject.findOne({subName:subName});
+        const existingAttendance = student.attendance.find(
+            (a) =>a.date.toDateString() === new Date(date).toDateString() && a.subName.toString() === subName
+        );
+        if (existingAttendance) {
+            existingAttendance.status = status;
+        } else {
+            const attendedSessions = student.attendance.filter(
+                (a) => a.subName.toString() === subName
+            ).length;
+            if (attendedSessions >= subject.sessions) {
+                return res.send({ message: 'Maximum attendance limit reached' });
+            }
+            student.attendance.push({ date, status, subName: subject._id });
+        }
+        const result = await student.save();
+        return res.send(result);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
+const studentAttendances = async (req, res) => {
     try {
         const subject = await Subject.findById(req.body.subjectId);
         if (!subject) {
@@ -253,4 +282,4 @@ const removeStudentAttendance = async (req, res) => {
     }
 };
 
-module.exports = { studentRegister, studentLogIn, getStudents, getStudentDetail, deleteStudents, deleteStudent, updateStudent, studentAttendance, deleteStudentsByClass, updateExamResult, clearAllStudentsAttendanceBySubject, clearAllStudentsAttendance, removeStudentAttendanceBySubject, removeStudentAttendance};
+module.exports = { studentRegister, studentLogIn, getStudents, getStudentDetail, deleteStudents, deleteStudent, updateStudent, studentAttendance, studentAttendances, deleteStudentsByClass, updateExamResult, clearAllStudentsAttendanceBySubject, clearAllStudentsAttendance, removeStudentAttendanceBySubject, removeStudentAttendance};
