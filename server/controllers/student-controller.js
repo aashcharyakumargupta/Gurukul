@@ -178,7 +178,7 @@ const studentAttendance = async (req, res) => {
             if (attendedSessions >= subject.sessions) {
                 return res.send({ message: 'Maximum attendance limit reached' });
             }
-            student.attendance.push({ date, status, subName: subject._id });
+            student.attendance.push({ date, status, subName});
         }
         const result = await student.save();
         return res.send(result);
