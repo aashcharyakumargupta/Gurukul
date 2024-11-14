@@ -199,34 +199,19 @@ const studentAttendances = async (req, res) => {
             date: singledata.date,
             student: singledata.studentId,
         }));
-        let i = 0;
-        while (attendances[i] !== undefined) {
-            let student = await Student.findById(attendances[i].student);
-            let status = attendances[i].status;
-            let date = attendances[i].date;
-            let subName = attendances[i].subName;
-            const existingAttendance = student.attendance.find(
-                (a) => a.date.toDateString() === new Date(date).toDateString() && a.subName.toString() === subName
-            );
-            if (existingAttendance) {
-                existingAttendance.status = status;
-            } else {
-                const attendedSessions = student.attendance.filter(
-                    (a) => a.subName.toString() === subName
-                ).length;
-                if (attendedSessions >= subject.sessions) {
-                    return res.send({ message: 'Maximum attendance limit reached' });
-                }
-                student.attendance.push({ date, status, subName });
-            }
-            const result = await student.save();
-            i++;
+        for (let attendance of attendances) {
+            const student = await Student.findById(attendance.student);
+            if (!student) continue;
+            student.attendance.push({
+                date: attendance.date,
+                status: attendance.status,
+                subName: attendance.subName
+            });
+            await student.save();
         }
-        return res.send("Attendance Marked Successfully!!")
-    }
-    catch (error) {
-        console.error("Error in studentAttendance:", error);
-        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        return res.send("Attendance Marked Successfully!!");
+    }  catch (err) {
+        res.status(500).json(err);
     }
 };
 
@@ -282,4 +267,17 @@ const removeStudentAttendance = async (req, res) => {
     }
 };
 
-module.exports = { studentRegister, studentLogIn, getStudents, getStudentDetail, deleteStudents, deleteStudent, updateStudent, studentAttendance, studentAttendances, deleteStudentsByClass, updateExamResult, clearAllStudentsAttendanceBySubject, clearAllStudentsAttendance, removeStudentAttendanceBySubject, removeStudentAttendance};
+const classStudents = async (req, res) => {
+    try {
+        let student = await Student.find({ sclassName: req.params.id })
+        if (student.length > 0) {
+            res.send(student)
+        } else {
+            res.send({ message: "No student found" });
+        }
+    } catch (err) {
+        res.status(500).json({message: "An error occured", err: err.message});
+    }
+};
+
+module.exports = { studentRegister, studentLogIn, getStudents, classStudents, getStudentDetail, deleteStudents, deleteStudent, updateStudent, studentAttendance, studentAttendances, deleteStudentsByClass, updateExamResult, clearAllStudentsAttendanceBySubject, clearAllStudentsAttendance, removeStudentAttendanceBySubject, removeStudentAttendance};

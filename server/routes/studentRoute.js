@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { studentRegister, studentLogIn, getStudents, getStudentDetail, deleteStudents, deleteStudent, updateStudent, studentAttendance, studentAttendances, deleteStudentsByClass, updateExamResult, clearAllStudentsAttendanceBySubject, clearAllStudentsAttendance, removeStudentAttendanceBySubject, removeStudentAttendance } = require('../controllers/student-controller.js');
+const { studentRegister, studentLogIn, getStudents, getStudentDetail, deleteStudents, deleteStudent, updateStudent, studentAttendance, studentAttendances, deleteStudentsByClass, updateExamResult, classStudents, clearAllStudentsAttendanceBySubject, clearAllStudentsAttendance, removeStudentAttendanceBySubject, removeStudentAttendance } = require('../controllers/student-controller.js');
 
 router.post('/StudentReg', studentRegister);
 router.post('/StudentLogin', studentLogIn);
@@ -16,5 +16,6 @@ router.put('/RemoveAllStudentsSubAtten/:id', clearAllStudentsAttendanceBySubject
 router.put('/RemoveAllStudentsAtten/', clearAllStudentsAttendance);
 router.put('/RemoveStudentSubAtten/:id', removeStudentAttendanceBySubject);
 router.put('/RemoveStudentAtten/:id', removeStudentAttendance);
+router.get("/ClassStudents/:id", classStudents);
 
 module.exports = router;
