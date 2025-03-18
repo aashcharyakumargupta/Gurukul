@@ -24,7 +24,7 @@ const AdminStudents = () => {
     const fetchAllStudent = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`http://localhost:5000/Student/Students`);
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/Students`);
             if (Array.isArray(response.data)) {
                 const formattedData = response.data.map((student) => ({
                     _id: student._id || "N/A",
@@ -46,7 +46,7 @@ const AdminStudents = () => {
 
     const deleteStudent = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/Student/Student/${id}`);
+            await axios.delete(`https://gurukul-vw9n.onrender.com/Student/Student/${id}`);
             setStudentTodo((prev) => prev.filter((student) => student._id !== id));
             toast.success("Student deleted successfully");
         } catch (error) {

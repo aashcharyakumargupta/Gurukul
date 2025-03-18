@@ -22,7 +22,7 @@ const AdminTeacher = () => {
   const fetchTeacherData = async () => {
     setLoading(true)
     try {
-      const response = await axios.get('http://localhost:5000/Teacher/Teachers');
+      const response = await axios.get('https://gurukul-vw9n.onrender.com/Teacher/Teachers');
       console.log("Response data fetch teacher: ", response.data);
       if (Array.isArray(response.data)) {
         const formattedSubjects = response.data.map((teacher) => ({

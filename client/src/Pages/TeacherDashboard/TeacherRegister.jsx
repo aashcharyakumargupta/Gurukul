@@ -14,7 +14,7 @@ const TeacherRegister = () => {
   const handleOnSubmit = async (data) => {
     console.log(data)
     try {
-      const response = await axios.post("http://localhost:5000/Teacher/TeacherReg", {
+      const response = await axios.post("https://gurukul-vw9n.onrender.com/Teacher/TeacherReg", {
         name: data.name,
         email: data.email,
         teacherSubject: data.teacherSubject,

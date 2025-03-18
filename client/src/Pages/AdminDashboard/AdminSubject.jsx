@@ -13,7 +13,7 @@ const AdminSubject = () => {
   const fetchSubjectData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/Subject/AllSubjects');
+      const response = await axios.get('https://gurukul-vw9n.onrender.com/Subject/AllSubjects');
       if (Array.isArray(response.data)) {
         const formattedSubjects = response.data.map((subject) => ({
           id: subject._id,
@@ -115,7 +115,7 @@ export default AdminSubject
 //   const fetchSubjectData = async () => {
 //     setLoading(true);
 //     try {
-//       const response = await axios.get('http://localhost:5000/Subject/AllSubjects');
+//       const response = await axios.get('https://gurukul-vw9n.onrender.com/Subject/AllSubjects');
 //       if (Array.isArray(response.data)) {
 //         const formattedSubjects = response.data.map((subject) => ({
 //           id: subject._id,
@@ -139,7 +139,7 @@ export default AdminSubject
 
 //   const deleteSubjectTodo = async (id) => {
 //     try {
-//       await axios.delete(`http://localhost:5000/Subject/${id}`);
+//       await axios.delete(`https://gurukul-vw9n.onrender.com/Subject/${id}`);
 //       const updatedSubjectTodo = subjectTodo.filter((subject) => subject.id !== id);
 //       setSubjectTodo(updatedSubjectTodo);
 //       toast.success("Subject deleted successfully!");

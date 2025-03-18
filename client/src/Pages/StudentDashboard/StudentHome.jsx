@@ -25,7 +25,7 @@ const StudentHome = () => {
             const student = JSON.parse(studentData);
             const sclassName = student.sclassName?._id;
 
-            const response = await axios.get(`http://localhost:5000/Subject/ClassSubjects/${sclassName}`);
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Subject/ClassSubjects/${sclassName}`);
             if (Array.isArray(response.data)) {
                 setSubjectCount(response.data.length);
             } else {
@@ -50,7 +50,7 @@ const StudentHome = () => {
 
             console.log("student: ", sclassName)
 
-            const response = await axios.get(`http://localhost:5000/Student/ClassStudents/${sclassName}`);
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/ClassStudents/${sclassName}`);
             console.log("student response: ", response.data)
             if (Array.isArray(response.data)) {
                 setStudentCount(response.data.length);
@@ -63,7 +63,7 @@ const StudentHome = () => {
     // Fetch Notice List
     const fetchNoticeList = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/Notice/NoticeList`)
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Notice/NoticeList`)
             console.log("response data notice: ", response)
             // setNoticeList(response.data)
             setNoticeList(Array.isArray(response.data) ? response.data : []);

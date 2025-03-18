@@ -60,7 +60,7 @@ const StudentAttendance = () => {
 
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5000/Student/Student/${sclassName}`);
+      const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/Student/${sclassName}`);
       if (response.data) {
         setStudentData([{
           ...response.data,

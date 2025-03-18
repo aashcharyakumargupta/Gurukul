@@ -23,7 +23,7 @@ const TaketeacherAttendance = () => {
 
     const handleOnSubmitAttendance = async (data) => {
         try {
-            const response = await axios.post(`http://localhost:5000/Teacher/TeacherAttendance/${teacherId}`, {
+            const response = await axios.post(`https://gurukul-vw9n.onrender.com/Teacher/TeacherAttendance/${teacherId}`, {
                 status: data.status,
                 date: data.date
             });

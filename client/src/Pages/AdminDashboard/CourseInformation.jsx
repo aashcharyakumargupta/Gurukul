@@ -56,7 +56,7 @@ const CourseInformation = () => {
   // Add Subject
   const addSubjectData = async (data) => {
     try {
-      const response = await axios.post(`http://localhost:5000/Subject/SubjectCreate/${courseId}`, {
+      const response = await axios.post(`https://gurukul-vw9n.onrender.com/Subject/SubjectCreate/${courseId}`, {
         ...data,
         courseId,
       });
@@ -75,7 +75,7 @@ const CourseInformation = () => {
   // Fetch data from the database
   const fetchSubjectData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Subject/AllSubjects');
+      const response = await axios.get('https://gurukul-vw9n.onrender.com/Subject/AllSubjects');
       if (Array.isArray(response.data)) {
         const formattedStudent = response.data.map((subject) => ({
           _id: subject._id,
@@ -102,7 +102,7 @@ const CourseInformation = () => {
   // Delete Subject Data
   const deleteSubjectTodo = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/Subject/Subject/${id}`);
+      const response = await axios.delete(`https://gurukul-vw9n.onrender.com/Subject/Subject/${id}`);
       if (response.status === 200) {
         setSubjectTodos(prev => prev.filter(subject => subject._id !== id));
         toast.success("Subject deleted successfully");
@@ -122,7 +122,7 @@ const CourseInformation = () => {
   const fetchStudentData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5000/Student/ClassStudents/${courseId}`);
+      const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/ClassStudents/${courseId}`);
       if (Array.isArray(response.data)) {
         const formattedSubjects = response.data.map((student) => ({
           _id: student._id,
@@ -146,7 +146,7 @@ const CourseInformation = () => {
 
   const deleteStudent = async (id) => {
     try {
-        await axios.delete(`http://localhost:5000/Student/Student/${id}`);
+        await axios.delete(`https://gurukul-vw9n.onrender.com/Student/Student/${id}`);
         setStudentTodos((prev) => prev.filter((student) => student._id !== id));
         toast.success("Student deleted successfully");
     } catch (error) {
@@ -170,7 +170,7 @@ const CourseInformation = () => {
   const fetchTeacherData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/Teacher/Teachers');
+      const response = await axios.get('https://gurukul-vw9n.onrender.com/Teacher/Teachers');
       if (Array.isArray(response.data)) {
         const formattedSubjects = response.data.map((teacher) => ({
           _id: teacher._id,
@@ -194,7 +194,7 @@ const CourseInformation = () => {
 
   const deleteTeacher = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/Teacher/Teacher/${id}`);
+      const response = await axios.delete(`https://gurukul-vw9n.onrender.com/Teacher/Teacher/${id}`);
       if (response.status === 200) {
         setTeacher((teachers) => teachers.filter((teacher) => teacher._id !== id));
         toast.success('Subject deleted successfully');

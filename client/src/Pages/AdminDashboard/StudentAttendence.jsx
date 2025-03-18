@@ -23,7 +23,7 @@ const StudentAttendence = () => {
 
     const handleOnSubmitAttendance = async (data) => {
         try {
-          const response = await axios.put(`http://localhost:5000/Student/StudentAttendance/${studentId}`, {
+          const response = await axios.put(`https://gurukul-vw9n.onrender.com/Student/StudentAttendance/${studentId}`, {
             subName: data.subName,
             status: data.status,
             date: data.date

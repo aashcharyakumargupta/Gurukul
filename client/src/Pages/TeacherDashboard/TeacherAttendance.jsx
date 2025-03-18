@@ -14,7 +14,7 @@ const TeacherAttendance = () => {
 
     const getTeacherDetail = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/Teacher/Teacher/${teacherId}`)
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Teacher/Teacher/${teacherId}`)
             console.log("fetch teacher data: ",response.data)
             if (response.data) {
                 const teacherSubject = response.data.teachSubject._id;
@@ -36,7 +36,7 @@ const TeacherAttendance = () => {
     const fetchStudentData = async () => {
         if (!classId) return; // Only proceed if classId is set
         try {
-            const response = await axios.get(`http://localhost:5000/Student/ClassStudents/${classId}`);
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/ClassStudents/${classId}`);
             if (Array.isArray(response.data)) {
                 const formattedStudents = response.data.map((student) => ({
                     _id: student._id,
@@ -91,7 +91,7 @@ const TeacherAttendance = () => {
                 subjectId: subjectId,
             }));
     
-            const response = await axios.put(`http://localhost:5000/Student/StudentAttendances`, {
+            const response = await axios.put(`https://gurukul-vw9n.onrender.com/Student/StudentAttendances`, {
                 attendanceData,
                 subjectId: subjectId,
             });

@@ -29,7 +29,7 @@ const SubjectInformation = () => {
     try {
 
       // Fetch the student detail using the API call
-      const response = await axios.get(`http://localhost:5000/Student/ClassStudents/${courseId}`);
+      const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/ClassStudents/${courseId}`);
       console.log("student response: ", response.data)
       if (Array.isArray(response.data)) {
         const formattedData = response.data.map((student) => ({

@@ -22,7 +22,7 @@ const TeacherProfile = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/Teacher/Teacher/${teacherId}`);
+                const response = await axios.get(`https://gurukul-vw9n.onrender.com/Teacher/Teacher/${teacherId}`);
                 console.log("Tecaher response: ", response.data)
                 if (response.data) {
                     setTeacherData(response.data);
@@ -50,7 +50,7 @@ const TeacherProfile = () => {
 
     const handleSave = async () => {
         try {
-            await axios.put(`http://localhost:5000/Teacher/Teacher/${teacherId}`, formData); // Update API endpoint
+            await axios.put(`https://gurukul-vw9n.onrender.com/Teacher/Teacher/${teacherId}`, formData); // Update API endpoint
             setTeacherData(formData);
             localStorage.setItem('Teacher', JSON.stringify(formData)); // Update local storage
         } catch (error) {

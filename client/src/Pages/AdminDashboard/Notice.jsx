@@ -25,7 +25,7 @@ const Notice = () => {
     // Notice Creation complete
     const handleSubmitNotice = async (data) => {
         try {
-            const response = await axios.post("http://localhost:5000/Notice/NoticeCreate", {
+            const response = await axios.post("https://gurukul-vw9n.onrender.com/Notice/NoticeCreate", {
                 title: data.title,
                 details: data.details,
                 date: data.date
@@ -50,7 +50,7 @@ const Notice = () => {
     // Fetching all the notices from the database
     const fetchNoticeData = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/Notice/NoticeList');
+            const response = await axios.get('https://gurukul-vw9n.onrender.com/Notice/NoticeList');
             if (Array.isArray(response.data)) {
                 const formattedNotices = response.data.map((notice) => ({
                     _id: notice._id,
@@ -73,7 +73,7 @@ const Notice = () => {
     // Delete notice from the queue via id
     const deleteNoticeTodo = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/Notice/Notice/${id}`)
+            const response = await axios.delete(`https://gurukul-vw9n.onrender.com/Notice/Notice/${id}`)
             if (response.status === 200) {
                 setNoticeTodo((notices) => notices.filter(notice => notice._id !== id))
                 toast.success("Notice deleted successfully")

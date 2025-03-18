@@ -21,7 +21,7 @@ const AdminHome = () => {
     // Count the total number of students
     const tStudentCount = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/Student/Students`)
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/Students`)
             setStudentCount(response.data.length)
         } catch (error) {
             console.log(error)
@@ -31,7 +31,7 @@ const AdminHome = () => {
     // count the total number of teachers
     const tTeacherCount = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/Teacher/Teachers`)
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Teacher/Teachers`)
             setTeacherCount(response.data.length)
         } catch (error) {
             console.log(error)
@@ -42,7 +42,7 @@ const AdminHome = () => {
     const fetchNoticeList = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`http://localhost:5000/Notice/NoticeList`)
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Notice/NoticeList`)
             console.log("response data notice: ", response)
             setNoticeList(Array.isArray(response.data) ? response.data : []);
         } catch (error) {

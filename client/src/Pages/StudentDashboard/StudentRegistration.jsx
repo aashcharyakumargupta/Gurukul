@@ -14,7 +14,7 @@ const StudentRegistration = () => {
   const handleOnSubmit = async (data) => {
 
     try {
-      const response = await axios.post("http://localhost:5000/Student/StudentReg", {
+      const response = await axios.post("https://gurukul-vw9n.onrender.com/Student/StudentReg", {
         name: data.name,
         rollNum: data.rollNum,
         password: data.password,

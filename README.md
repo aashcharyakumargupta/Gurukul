@@ -91,7 +91,7 @@ Ensure you have the following installed on your local development machine:
    npm start
    ```
 
-   The frontend should be running on `http://localhost:3000` and the backend on `http://localhost:5000`.
+   The frontend should be running on `http://localhost:3000` and the backend on `https://gurukul-vw9n.onrender.com`.
 
 ---
 

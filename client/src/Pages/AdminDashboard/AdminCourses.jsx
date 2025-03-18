@@ -38,7 +38,7 @@ const AdminCourses = () => {
 
   const handleOnSubmitCourse = async (data) => {
     try {
-      const response = await axios.post('http://localhost:5000/Sclass/SclassCreate', {
+      const response = await axios.post('https://gurukul-vw9n.onrender.com/Sclass/SclassCreate', {
         sclassName: data.courseName,
       });
       if (response.data) {
@@ -58,7 +58,7 @@ const AdminCourses = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Sclass/SclassList');
+      const response = await axios.get('https://gurukul-vw9n.onrender.com/Sclass/SclassList');
       if (Array.isArray(response.data)) {
         const formattedCourse = response.data.map((course) => ({
           _id: course._id,
@@ -74,7 +74,7 @@ const AdminCourses = () => {
 
   const deleteTodo = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/Sclass/Sclass/${id}`);
+      const response = await axios.delete(`https://gurukul-vw9n.onrender.com/Sclass/Sclass/${id}`);
       if (response.status === 200) {
         const updateCourseTodo = setCourseTodo((courses) => courses.filter((course) => course._id !== id));
         localStorage.setItem('courseTodo', JSON.stringify(updateCourseTodo));

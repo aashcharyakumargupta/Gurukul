@@ -92,7 +92,7 @@ const AdminStudent = () => {
 
   const handleMarks = async (data) => {
     try {
-      const response = await axios.put(`http://localhost:5000/Student/UpdateExamResult/${showStudentData._id}`, {
+      const response = await axios.put(`https://gurukul-vw9n.onrender.com/Student/UpdateExamResult/${showStudentData._id}`, {
         subName: data.subName || "Unknown",
         marksObtained: data.marksObtained || "N/A"
       });
@@ -111,7 +111,7 @@ const AdminStudent = () => {
 
   const fetchMarksData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/Student/Student/${showStudentData._id}`);
+      const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/Student/${showStudentData._id}`);
       if (response.data && response.data.examResult) {
         setMarksData(response.data.examResult);
       } else {
@@ -125,7 +125,7 @@ const AdminStudent = () => {
 
   const fetchSubjectData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Subject/AllSubjects');
+      const response = await axios.get('https://gurukul-vw9n.onrender.com/Subject/AllSubjects');
       console.log(response.data)
       if (Array.isArray(response.data)) {
         const formattedSubjects = response.data.map((subject) => ({
@@ -148,7 +148,7 @@ const AdminStudent = () => {
 
   const deleteAttendance = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/Subject/Subject/${id}`);
+      const response = await axios.delete(`https://gurukul-vw9n.onrender.com/Subject/Subject/${id}`);
       console.log("Response: ", response)
       if (response.status === 200) {
         setSubjectTodo((subjects) => subjects.filter((subject) => subject._id !== id));

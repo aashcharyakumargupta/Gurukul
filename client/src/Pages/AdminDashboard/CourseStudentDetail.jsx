@@ -51,7 +51,7 @@ const CourseStudentDetail = () => {
     const fetchStudentData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:5000/Student/Student/${studentTodo}`);
+            const response = await axios.get(`https://gurukul-vw9n.onrender.com/Student/Student/${studentTodo}`);
             if (response.data) {
                 setStudentData([{
                     ...response.data,
