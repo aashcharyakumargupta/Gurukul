@@ -20,12 +20,12 @@ app.use(bodyParser.json({extended: true }))
 app.use(bodyParser.urlencoded({extended: true }))
 app.use(express.json())
 
-const corsOption = {
-    origin: ['https://localhost:3000/','https://gurukul-vw9n.vercel.app/'],
-    method: ["GET POST PUT DELETE HEAD PATCH"],
-    credentials: true,
-  };
-app.use(cors(corsOption))
+// const corsOption = {
+//     origin: ['https://localhost:3000/','https://gurukul-vw9n.vercel.app/'],
+//     method: ["GET POST PUT DELETE HEAD PATCH"],
+//     credentials: true,
+//   };
+app.use(cors())
 
 mongoose
     .connect(process.env.MONGO_URL, {})
