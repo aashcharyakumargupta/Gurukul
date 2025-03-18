@@ -21,12 +21,11 @@ app.use(bodyParser.urlencoded({extended: true }))
 app.use(express.json())
 
 const corsOption = {
-    origin: ['https://localhost:3000/','https://gurukul-sigma.vercel.app/'],
+    origin: ['https://localhost:3000','https://gurukul-sigma.vercel.app'],
     method: ["GET POST PUT DELETE HEAD PATCH"],
     credentials: true,
   };
-
-app.use(cors(corsOption))
+  app.use(cors(corsOption));
 
 mongoose
     .connect(process.env.MONGO_URL, {})
